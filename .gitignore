@@ -1,0 +1,6 @@
+node_modules
+package.json.lock
+
+/**/.DS_Store
+
+dist/main.js
