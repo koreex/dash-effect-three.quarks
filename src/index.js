@@ -2,8 +2,11 @@ import _ from 'lodash';
 import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 
+import { MuzzleFlashDemo } from './muzzleFlashDemo.js';
 
-let scene, camera, renderer;
+
+let scene, camera, renderer, clock;
+let demo;
 
 function init() {
 
@@ -22,6 +25,8 @@ function init() {
 
     var controls = new OrbitControls(camera, renderer.domElement);
 
+    clock = new THREE.Clock();
+
 }
 
 function setupScene() {
@@ -29,6 +34,10 @@ function setupScene() {
 	var mesh = new THREE.Mesh(
 		new THREE.BoxGeometry(), new THREE.MeshBasicMaterial({ color: 0xff0000 })
 	);
+
+    demo = new MuzzleFlashDemo();
+
+    scene = demo.initScene();
 
 	scene.add(mesh);
 
@@ -38,16 +47,18 @@ function animate() {
 
     requestAnimationFrame(animate);
 
+    var delta = clock.getDelta();
+
+    demo.render(delta);
+
     renderer.render(scene, camera);
 
 }
 
-(function () {
+(function (){
 
     init();
-
     setupScene();
-
     animate();
 
 })();
